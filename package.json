@@ -1,0 +1,12 @@
+{
+  "name": "puesto7-agent-benchmark-poc",
+  "version": "0.1.0",
+  "private": true,
+  "description": "POC reproducible de benchmark para agentes LLM inspirada en Puesto Siete",
+  "type": "commonjs",
+  "scripts": {
+    "test": "node test.cjs",
+    "run:offline": "node run.cjs --mode offline --episodes 20 --seed 1000",
+    "run:ollama": "node run.cjs --mode ollama --episodes 5 --seed 1000"
+  }
+}
