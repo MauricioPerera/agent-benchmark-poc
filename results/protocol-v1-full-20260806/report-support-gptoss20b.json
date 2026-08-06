@@ -1,0 +1,120 @@
+{
+  "version": "v1",
+  "protocol": {
+    "version": "v1",
+    "models": [
+      "deepseek-v4-pro:cloud",
+      "gpt-oss:20b-cloud",
+      "gpt-oss:120b-cloud"
+    ],
+    "suites": [
+      {
+        "id": "border-standard",
+        "domain": "border",
+        "profile": "standard",
+        "seed": 51000,
+        "episodes": 5,
+        "repeats": 3,
+        "cases": 3,
+        "maxActions": 18,
+        "timeoutMs": 30000
+      },
+      {
+        "id": "border-interactive-semantic-ood",
+        "domain": "border",
+        "profile": "interactive-semantic-ood",
+        "seed": 51100,
+        "episodes": 5,
+        "repeats": 3,
+        "cases": 2,
+        "maxActions": 18,
+        "timeoutMs": 30000
+      },
+      {
+        "id": "support",
+        "domain": "support",
+        "seed": 51200,
+        "episodes": 5,
+        "repeats": 3,
+        "cases": 6,
+        "maxActions": 30,
+        "timeoutMs": 30000
+      },
+      {
+        "id": "reservations-standard",
+        "domain": "reservations",
+        "profile": "standard",
+        "seed": 51300,
+        "episodes": 5,
+        "repeats": 3,
+        "cases": 6,
+        "maxActions": 30,
+        "timeoutMs": 30000
+      },
+      {
+        "id": "reservations-semantic-ood",
+        "domain": "reservations",
+        "profile": "semantic-ood",
+        "seed": 51400,
+        "episodes": 5,
+        "repeats": 3,
+        "cases": 6,
+        "maxActions": 30,
+        "timeoutMs": 30000
+      }
+    ]
+  },
+  "options": {
+    "config": "evaluation-protocol.json",
+    "out": "results/protocol-v1-full-20260806/report-support-gptoss20b.json",
+    "dryRun": false,
+    "models": [
+      "gpt-oss:20b-cloud"
+    ],
+    "suites": [
+      "support"
+    ],
+    "episodes": null,
+    "repeats": null
+  },
+  "results": [
+    {
+      "suite": "support",
+      "domain": "support",
+      "model": "gpt-oss:20b-cloud",
+      "summary": {
+        "domain": "customer_support",
+        "mode": "ollama",
+        "model": "gpt-oss:20b-cloud",
+        "episodes": 15,
+        "repeats": 3,
+        "meanAccuracy": 0.5222222222222223,
+        "meanLatencyMs": 36583.86666666667,
+        "episodeSuccessRate": 0,
+        "decisionErrorRate": 0.4111111111111111,
+        "toolErrorRate": 0,
+        "protocolErrorRate": 0,
+        "invalidActionRate": 0,
+        "modelTimeoutRate": 0.06666666666666667,
+        "modelParseErrorRate": 0,
+        "budgetExceededRate": 0,
+        "confusionMatrix": {
+          "resolve": {
+            "resolve": 22,
+            "__timeout__": 1
+          },
+          "escalate": {
+            "escalate": 25,
+            "deny": 12,
+            "resolve": 3
+          },
+          "deny": {
+            "resolve": 21,
+            "escalate": 1
+          }
+        },
+        "passK": 0
+      }
+    }
+  ]
+}
