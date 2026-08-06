@@ -107,8 +107,13 @@ function observation(state) {
     booking: i.has('booking') ? state.booking : undefined,
     policy: i.has('policy') ? t.policy : undefined,
     available_tools: ['availability', 'booking', 'policy'].filter(key => !i.has(key)).map(key => `inspect_${key}`),
-    allowed_actions: [...ACTIONS]
+    allowed_actions: [...ACTIONS],
+    last_action: state.lastAction || undefined
   };
+}
+
+function setLastAction(state, action, ok, error, errorType) {
+  state.lastAction = { action, ok, ...(error ? { error, errorType } : {}) };
 }
 
 function record(state, action, correct, error, errorType, critical = false) {
@@ -125,6 +130,7 @@ function record(state, action, correct, error, errorType, critical = false) {
 
 function finishCase(state, action, correct, error, errorType, critical = false) {
   record(state, action, correct, error, errorType, critical);
+  setLastAction(state, action, correct, error, errorType);
   // Cada reserva es una tarea independiente: un fallo resuelve negativamente
   // la tarea actual, pero no debe ocultar las siguientes del episodio.
   if (state.index + 1 >= state.episode.queue.length) {
@@ -146,14 +152,17 @@ function step(state, action) {
     if (!['availability', 'booking', 'policy'].includes(key) || state.inspected.has(key)) {
       state.errors++; state.toolErrors++; state.invalidActions++;
       state.history.push({ reservation: state.current.id, action: normalized, correct: false, error: 'invalid_inspection', errorType: 'tool', critical: false });
+      setLastAction(state, normalized, false, 'invalid_inspection', 'tool');
       return { valid: true, done: false, error: 'invalid_inspection', errorType: 'tool', observation: observation(state) };
     }
     state.inspected.add(key); state.inspections++;
+    setLastAction(state, normalized, true);
     return { valid: true, done: false, observation: observation(state) };
   }
   if (!ACTIONS.filter(name => !name.startsWith('inspect_')).includes(normalized)) {
     state.errors++; state.protocolErrors++; state.invalidActions++;
     state.history.push({ reservation: state.current.id, action: normalized, correct: false, error: 'invalid_action', errorType: 'protocol', critical: false });
+    setLastAction(state, normalized, false, 'invalid_action', 'protocol');
     return { valid: true, done: false, error: 'invalid_action', errorType: 'protocol', observation: observation(state) };
   }
   const task = state.current;
@@ -161,6 +170,7 @@ function step(state, action) {
     state.searchVersion = task.version;
     state.clock++;
     if (task.type === 'stale' && state.clock === 1) task.version++;
+    setLastAction(state, normalized, true);
     return { valid: true, done: false, observation: observation(state) };
   }
   if (normalized === 'create_hold') {
@@ -170,8 +180,10 @@ function step(state, action) {
       if (previous.fingerprint !== fingerprint) {
         state.errors++; state.toolErrors++;
         state.history.push({ reservation: state.current.id, type: state.current.type, action: normalized, expected: expected(state.current), correct: false, error: 'idempotency_conflict', errorType: 'tool', critical: false });
+        setLastAction(state, normalized, false, 'idempotency_conflict', 'tool');
         return { valid: true, done: false, error: 'idempotency_conflict', errorType: 'tool', observation: observation(state) };
       }
+      setLastAction(state, normalized, true);
       return { ...previous.result, replayed: true };
     }
     if (state.searchVersion === null) return finishCase(state, normalized, false, 'search_required', 'tool', false);
@@ -179,6 +191,7 @@ function step(state, action) {
     if (task.type === 'stale' && state.searchVersion !== task.version) return finishCase(state, normalized, false, 'stale_version', 'tool', false);
     const duration = task.type === 'expired_hold' && state.hold ? 3 : task.holdExpiresAt;
     state.hold = { id: `hold-${task.id}`, expiresAt: state.clock + duration, version: task.version };
+    setLastAction(state, normalized, true);
     const result = { valid: true, done: false, observation: observation(state) };
     if (idempotencyKey) state.idempotency.set(idempotencyKey, { fingerprint, result });
     return result;
@@ -187,11 +200,15 @@ function step(state, action) {
     if (state.booking && state.booking.status === 'confirmed') {
       state.errors++; state.toolErrors++;
       state.history.push({ reservation: state.current.id, type: state.current.type, action: normalized, expected: expected(state.current), correct: false, error: 'already_confirmed', errorType: 'tool', critical: false });
+      setLastAction(state, normalized, false, 'already_confirmed', 'tool');
       return { valid: true, done: false, error: 'already_confirmed', errorType: 'tool', observation: observation(state) };
     }
     if (!state.hold || state.clock >= state.hold.expiresAt) return finishCase(state, normalized, false, 'hold_expired', 'decision', true);
     state.booking = { id: `booking-${task.id}`, resource: task.resource, slot: task.requestedSlot, status: 'confirmed' };
-    if (task.type === 'modify_conflict' || task.type === 'cancel') return { valid: true, done: false, observation: observation(state) };
+    if (task.type === 'modify_conflict' || task.type === 'cancel') {
+      setLastAction(state, normalized, true);
+      return { valid: true, done: false, observation: observation(state) };
+    }
     return finishCase(state, normalized, true);
   }
   if (normalized === 'cancel') {
@@ -207,6 +224,7 @@ function step(state, action) {
     return finishCase(state, normalized, task.type === 'impossible', task.type === 'impossible' ? undefined : 'unexpected_rejection', 'decision', task.type !== 'impossible');
   }
   if (normalized === 'get_booking') {
+    setLastAction(state, normalized, true);
     return { valid: true, done: false, observation: observation(state) };
   }
   return finishCase(state, normalized, false, 'unsupported', 'protocol');
