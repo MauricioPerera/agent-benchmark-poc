@@ -14,7 +14,9 @@
   },
   "scripts": {
     "test": "node test.cjs",
+    "test:support": "node support-test.cjs",
     "test:reservations": "node reservations-test.cjs",
+    "test:all": "npm run test && npm run test:support && npm run test:reservations",
     "run:offline": "node run.cjs --mode offline --episodes 20 --seed 1000",
     "run:ollama": "node run.cjs --mode ollama --episodes 5 --seed 1000",
     "run:reservations": "node reservations-run.cjs --mode offline --episodes 5 --seed 30000",

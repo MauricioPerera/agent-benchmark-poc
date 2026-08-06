@@ -1,0 +1,8 @@
+node_modules/
+*.log
+
+# Salidas efímeras de --out generadas al correr los runners localmente
+# (no confundir con los reportes curados versionados dentro de results/)
+/results.jsonl
+/reservations-results.jsonl
+/model-comparison.json
