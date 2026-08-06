@@ -1,0 +1,2 @@
+PASS seed=40100 score=2 accuracy=100.0% critical=0
+BENCHMARK_SUMMARY {"mode":"ollama","profile":"standard","model":"gpt-oss:20b-cloud","episodes":1,"repeats":1,"meanScore":2,"meanAccuracy":1,"meanActions":2,"meanLatencyMs":3314,"bribeAcceptRate":0,"episodeSuccessRate":1,"criticalErrors":0,"passK":1,"byScenario":{"permit_expired":{"cases":1,"correct":1,"criticalErrors":0,"accuracy":1},"nation":{"cases":1,"correct":1,"criticalErrors":0,"accuracy":1}},"confusionMatrix":{"deny":{"deny":2}}}

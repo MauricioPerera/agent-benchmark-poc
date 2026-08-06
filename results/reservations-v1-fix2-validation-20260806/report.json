@@ -1,0 +1,685 @@
+{
+  "version": "v1",
+  "protocol": {
+    "version": "v1",
+    "models": [
+      "deepseek-v4-pro:cloud",
+      "gpt-oss:20b-cloud",
+      "gpt-oss:120b-cloud"
+    ],
+    "suites": [
+      {
+        "id": "border-standard",
+        "domain": "border",
+        "profile": "standard",
+        "seed": 51000,
+        "episodes": 5,
+        "repeats": 3,
+        "cases": 3,
+        "maxActions": 18,
+        "timeoutMs": 30000
+      },
+      {
+        "id": "border-interactive-semantic-ood",
+        "domain": "border",
+        "profile": "interactive-semantic-ood",
+        "seed": 51100,
+        "episodes": 5,
+        "repeats": 3,
+        "cases": 2,
+        "maxActions": 18,
+        "timeoutMs": 30000
+      },
+      {
+        "id": "support",
+        "domain": "support",
+        "seed": 51200,
+        "episodes": 5,
+        "repeats": 3,
+        "cases": 6,
+        "maxActions": 30,
+        "timeoutMs": 30000
+      },
+      {
+        "id": "reservations-standard",
+        "domain": "reservations",
+        "profile": "standard",
+        "seed": 51300,
+        "episodes": 5,
+        "repeats": 3,
+        "cases": 6,
+        "maxActions": 30,
+        "timeoutMs": 30000
+      },
+      {
+        "id": "reservations-semantic-ood",
+        "domain": "reservations",
+        "profile": "semantic-ood",
+        "seed": 51400,
+        "episodes": 5,
+        "repeats": 3,
+        "cases": 6,
+        "maxActions": 30,
+        "timeoutMs": 30000
+      }
+    ]
+  },
+  "options": {
+    "config": "evaluation-protocol.json",
+    "out": "results/reservations-v1-fix2-validation-20260806/report.json",
+    "dryRun": false,
+    "models": null,
+    "suites": [
+      "reservations-standard",
+      "reservations-semantic-ood"
+    ],
+    "episodes": 1,
+    "repeats": 1
+  },
+  "results": [
+    {
+      "suite": "reservations-standard",
+      "domain": "reservations",
+      "model": "deepseek-v4-pro:cloud",
+      "summary": {
+        "domain": "reservations",
+        "profile": "standard",
+        "mode": "ollama",
+        "model": "deepseek-v4-pro:cloud",
+        "episodes": 1,
+        "repeats": 1,
+        "meanScore": 0,
+        "meanAccuracy": 0.16666666666666666,
+        "meanActions": 30,
+        "meanLatencyMs": 170623,
+        "episodeSuccessRate": 0,
+        "decisionErrorRate": 0.16666666666666666,
+        "toolErrorRate": 0.03333333333333333,
+        "protocolErrorRate": 0,
+        "invalidActionRate": 0,
+        "modelTimeoutRate": 0,
+        "modelParseErrorRate": 0,
+        "budgetExceededRate": 1,
+        "byScenario": {
+          "simple": {
+            "cases": 1,
+            "correct": 1,
+            "errors": 0,
+            "accuracy": 1
+          },
+          "stale": {
+            "cases": 1,
+            "correct": 0,
+            "errors": 1,
+            "accuracy": 0
+          },
+          "expired_hold": {
+            "cases": 1,
+            "correct": 0,
+            "errors": 1,
+            "accuracy": 0
+          },
+          "modify_conflict": {
+            "cases": 1,
+            "correct": 0,
+            "errors": 1,
+            "accuracy": 0
+          }
+        },
+        "passK": 0,
+        "rows": [
+          {
+            "version": "reservations-0.1.0",
+            "domain": "reservations",
+            "seed": 51300,
+            "total": 6,
+            "correct": 1,
+            "errors": 3,
+            "criticalErrors": 1,
+            "decisionErrors": 1,
+            "toolErrors": 1,
+            "protocolErrors": 0,
+            "invalidActions": 0,
+            "inspections": 0,
+            "actions": 30,
+            "accuracy": 0.16666666666666666,
+            "score": 0,
+            "success": false,
+            "history": [
+              {
+                "reservation": "reservation-51300-1",
+                "type": "simple",
+                "action": "confirm",
+                "expected": "confirm",
+                "correct": true,
+                "critical": false
+              },
+              {
+                "reservation": "reservation-51300-2",
+                "type": "stale",
+                "action": "create_hold",
+                "expected": "confirm",
+                "correct": false,
+                "error": "search_required",
+                "errorType": "tool",
+                "critical": false
+              },
+              {
+                "reservation": "reservation-51300-3",
+                "type": "expired_hold",
+                "action": "confirm",
+                "expected": "confirm",
+                "correct": false,
+                "error": "hold_expired",
+                "errorType": "decision",
+                "critical": true
+              },
+              {
+                "reservation": "reservation-51300-4",
+                "type": "modify_conflict",
+                "action": "__max_actions__",
+                "correct": false,
+                "error": "max_actions_exceeded",
+                "errorType": "runner",
+                "critical": false
+              }
+            ],
+            "repeat": 1,
+            "latencyMs": 170623,
+            "modelTimeouts": 0,
+            "modelParseErrors": 0,
+            "budgetExceeded": 1
+          }
+        ]
+      }
+    },
+    {
+      "suite": "reservations-standard",
+      "domain": "reservations",
+      "model": "gpt-oss:20b-cloud",
+      "summary": {
+        "domain": "reservations",
+        "profile": "standard",
+        "mode": "ollama",
+        "model": "gpt-oss:20b-cloud",
+        "episodes": 1,
+        "repeats": 1,
+        "meanScore": 25,
+        "meanAccuracy": 0,
+        "meanActions": 30,
+        "meanLatencyMs": 68456,
+        "episodeSuccessRate": 0,
+        "decisionErrorRate": 0,
+        "toolErrorRate": 0,
+        "protocolErrorRate": 0,
+        "invalidActionRate": 0,
+        "modelTimeoutRate": 0,
+        "modelParseErrorRate": 0,
+        "budgetExceededRate": 1,
+        "byScenario": {
+          "simple": {
+            "cases": 1,
+            "correct": 0,
+            "errors": 1,
+            "accuracy": 0
+          }
+        },
+        "passK": 0,
+        "rows": [
+          {
+            "version": "reservations-0.1.0",
+            "domain": "reservations",
+            "seed": 51300,
+            "total": 6,
+            "correct": 0,
+            "errors": 1,
+            "criticalErrors": 0,
+            "decisionErrors": 0,
+            "toolErrors": 0,
+            "protocolErrors": 0,
+            "invalidActions": 0,
+            "inspections": 0,
+            "actions": 30,
+            "accuracy": 0,
+            "score": 25,
+            "success": false,
+            "history": [
+              {
+                "reservation": "reservation-51300-1",
+                "type": "simple",
+                "action": "__max_actions__",
+                "correct": false,
+                "error": "max_actions_exceeded",
+                "errorType": "runner",
+                "critical": false
+              }
+            ],
+            "repeat": 1,
+            "latencyMs": 68456,
+            "modelTimeouts": 0,
+            "modelParseErrors": 0,
+            "budgetExceeded": 1
+          }
+        ]
+      }
+    },
+    {
+      "suite": "reservations-standard",
+      "domain": "reservations",
+      "model": "gpt-oss:120b-cloud",
+      "summary": {
+        "domain": "reservations",
+        "profile": "standard",
+        "mode": "ollama",
+        "model": "gpt-oss:120b-cloud",
+        "episodes": 1,
+        "repeats": 1,
+        "meanScore": 0,
+        "meanAccuracy": 0.16666666666666666,
+        "meanActions": 30,
+        "meanLatencyMs": 73258,
+        "episodeSuccessRate": 0,
+        "decisionErrorRate": 0.16666666666666666,
+        "toolErrorRate": 0.03333333333333333,
+        "protocolErrorRate": 0,
+        "invalidActionRate": 0,
+        "modelTimeoutRate": 0,
+        "modelParseErrorRate": 0,
+        "budgetExceededRate": 1,
+        "byScenario": {
+          "simple": {
+            "cases": 1,
+            "correct": 1,
+            "errors": 0,
+            "accuracy": 1
+          },
+          "stale": {
+            "cases": 1,
+            "correct": 0,
+            "errors": 1,
+            "accuracy": 0
+          },
+          "expired_hold": {
+            "cases": 1,
+            "correct": 0,
+            "errors": 1,
+            "accuracy": 0
+          },
+          "modify_conflict": {
+            "cases": 1,
+            "correct": 0,
+            "errors": 1,
+            "accuracy": 0
+          }
+        },
+        "passK": 0,
+        "rows": [
+          {
+            "version": "reservations-0.1.0",
+            "domain": "reservations",
+            "seed": 51300,
+            "total": 6,
+            "correct": 1,
+            "errors": 3,
+            "criticalErrors": 1,
+            "decisionErrors": 1,
+            "toolErrors": 1,
+            "protocolErrors": 0,
+            "invalidActions": 0,
+            "inspections": 0,
+            "actions": 30,
+            "accuracy": 0.16666666666666666,
+            "score": 0,
+            "success": false,
+            "history": [
+              {
+                "reservation": "reservation-51300-1",
+                "type": "simple",
+                "action": "confirm",
+                "expected": "confirm",
+                "correct": true,
+                "critical": false
+              },
+              {
+                "reservation": "reservation-51300-2",
+                "type": "stale",
+                "action": "create_hold",
+                "expected": "confirm",
+                "correct": false,
+                "error": "stale_version",
+                "errorType": "tool",
+                "critical": false
+              },
+              {
+                "reservation": "reservation-51300-3",
+                "type": "expired_hold",
+                "action": "confirm",
+                "expected": "confirm",
+                "correct": false,
+                "error": "hold_expired",
+                "errorType": "decision",
+                "critical": true
+              },
+              {
+                "reservation": "reservation-51300-4",
+                "type": "modify_conflict",
+                "action": "__max_actions__",
+                "correct": false,
+                "error": "max_actions_exceeded",
+                "errorType": "runner",
+                "critical": false
+              }
+            ],
+            "repeat": 1,
+            "latencyMs": 73258,
+            "modelTimeouts": 0,
+            "modelParseErrors": 0,
+            "budgetExceeded": 1
+          }
+        ]
+      }
+    },
+    {
+      "suite": "reservations-semantic-ood",
+      "domain": "reservations",
+      "model": "deepseek-v4-pro:cloud",
+      "summary": {
+        "domain": "reservations",
+        "profile": "semantic-ood",
+        "mode": "ollama",
+        "model": "deepseek-v4-pro:cloud",
+        "episodes": 1,
+        "repeats": 1,
+        "meanScore": 0,
+        "meanAccuracy": 0.16666666666666666,
+        "meanActions": 30,
+        "meanLatencyMs": 115633,
+        "episodeSuccessRate": 0,
+        "decisionErrorRate": 0.16666666666666666,
+        "toolErrorRate": 0.03333333333333333,
+        "protocolErrorRate": 0,
+        "invalidActionRate": 0,
+        "modelTimeoutRate": 0,
+        "modelParseErrorRate": 0,
+        "budgetExceededRate": 1,
+        "byScenario": {
+          "simple": {
+            "cases": 1,
+            "correct": 1,
+            "errors": 0,
+            "accuracy": 1
+          },
+          "stale": {
+            "cases": 1,
+            "correct": 0,
+            "errors": 1,
+            "accuracy": 0
+          },
+          "expired_hold": {
+            "cases": 1,
+            "correct": 0,
+            "errors": 1,
+            "accuracy": 0
+          },
+          "modify_conflict": {
+            "cases": 1,
+            "correct": 0,
+            "errors": 1,
+            "accuracy": 0
+          }
+        },
+        "passK": 0,
+        "rows": [
+          {
+            "version": "reservations-0.1.0",
+            "domain": "reservations",
+            "seed": 51400,
+            "total": 6,
+            "correct": 1,
+            "errors": 3,
+            "criticalErrors": 1,
+            "decisionErrors": 1,
+            "toolErrors": 1,
+            "protocolErrors": 0,
+            "invalidActions": 0,
+            "inspections": 0,
+            "actions": 30,
+            "accuracy": 0.16666666666666666,
+            "score": 0,
+            "success": false,
+            "history": [
+              {
+                "reservation": "reservation-51400-1",
+                "type": "simple",
+                "action": "confirm",
+                "expected": "confirm",
+                "correct": true,
+                "critical": false
+              },
+              {
+                "reservation": "reservation-51400-2",
+                "type": "stale",
+                "action": "create_hold",
+                "expected": "confirm",
+                "correct": false,
+                "error": "stale_version",
+                "errorType": "tool",
+                "critical": false
+              },
+              {
+                "reservation": "reservation-51400-3",
+                "type": "expired_hold",
+                "action": "confirm",
+                "expected": "confirm",
+                "correct": false,
+                "error": "hold_expired",
+                "errorType": "decision",
+                "critical": true
+              },
+              {
+                "reservation": "reservation-51400-4",
+                "type": "modify_conflict",
+                "action": "__max_actions__",
+                "correct": false,
+                "error": "max_actions_exceeded",
+                "errorType": "runner",
+                "critical": false
+              }
+            ],
+            "repeat": 1,
+            "latencyMs": 115633,
+            "modelTimeouts": 0,
+            "modelParseErrors": 0,
+            "budgetExceeded": 1
+          }
+        ]
+      }
+    },
+    {
+      "suite": "reservations-semantic-ood",
+      "domain": "reservations",
+      "model": "gpt-oss:20b-cloud",
+      "summary": {
+        "domain": "reservations",
+        "profile": "semantic-ood",
+        "mode": "ollama",
+        "model": "gpt-oss:20b-cloud",
+        "episodes": 1,
+        "repeats": 1,
+        "meanScore": 25,
+        "meanAccuracy": 0,
+        "meanActions": 13,
+        "meanLatencyMs": 112001,
+        "episodeSuccessRate": 0,
+        "decisionErrorRate": 0,
+        "toolErrorRate": 0,
+        "protocolErrorRate": 0,
+        "invalidActionRate": 0,
+        "modelTimeoutRate": 1,
+        "modelParseErrorRate": 0,
+        "budgetExceededRate": 0,
+        "byScenario": {
+          "simple": {
+            "cases": 1,
+            "correct": 0,
+            "errors": 1,
+            "accuracy": 0
+          }
+        },
+        "passK": 0,
+        "rows": [
+          {
+            "version": "reservations-0.1.0",
+            "domain": "reservations",
+            "seed": 51400,
+            "total": 6,
+            "correct": 0,
+            "errors": 1,
+            "criticalErrors": 0,
+            "decisionErrors": 0,
+            "toolErrors": 0,
+            "protocolErrors": 0,
+            "invalidActions": 0,
+            "inspections": 0,
+            "actions": 13,
+            "accuracy": 0,
+            "score": 25,
+            "success": false,
+            "history": [
+              {
+                "reservation": "reservation-51400-1",
+                "type": "simple",
+                "action": "__timeout__",
+                "correct": false,
+                "error": "model_timeout",
+                "errorType": "model",
+                "critical": false
+              }
+            ],
+            "repeat": 1,
+            "latencyMs": 112001,
+            "modelTimeouts": 1,
+            "modelParseErrors": 0,
+            "budgetExceeded": 0
+          }
+        ]
+      }
+    },
+    {
+      "suite": "reservations-semantic-ood",
+      "domain": "reservations",
+      "model": "gpt-oss:120b-cloud",
+      "summary": {
+        "domain": "reservations",
+        "profile": "semantic-ood",
+        "mode": "ollama",
+        "model": "gpt-oss:120b-cloud",
+        "episodes": 1,
+        "repeats": 1,
+        "meanScore": 0,
+        "meanAccuracy": 0.16666666666666666,
+        "meanActions": 30,
+        "meanLatencyMs": 83906,
+        "episodeSuccessRate": 0,
+        "decisionErrorRate": 0.16666666666666666,
+        "toolErrorRate": 0.03333333333333333,
+        "protocolErrorRate": 0,
+        "invalidActionRate": 0,
+        "modelTimeoutRate": 0,
+        "modelParseErrorRate": 0,
+        "budgetExceededRate": 1,
+        "byScenario": {
+          "simple": {
+            "cases": 1,
+            "correct": 1,
+            "errors": 0,
+            "accuracy": 1
+          },
+          "stale": {
+            "cases": 1,
+            "correct": 0,
+            "errors": 1,
+            "accuracy": 0
+          },
+          "expired_hold": {
+            "cases": 1,
+            "correct": 0,
+            "errors": 1,
+            "accuracy": 0
+          },
+          "modify_conflict": {
+            "cases": 1,
+            "correct": 0,
+            "errors": 1,
+            "accuracy": 0
+          }
+        },
+        "passK": 0,
+        "rows": [
+          {
+            "version": "reservations-0.1.0",
+            "domain": "reservations",
+            "seed": 51400,
+            "total": 6,
+            "correct": 1,
+            "errors": 3,
+            "criticalErrors": 1,
+            "decisionErrors": 1,
+            "toolErrors": 1,
+            "protocolErrors": 0,
+            "invalidActions": 0,
+            "inspections": 0,
+            "actions": 30,
+            "accuracy": 0.16666666666666666,
+            "score": 0,
+            "success": false,
+            "history": [
+              {
+                "reservation": "reservation-51400-1",
+                "type": "simple",
+                "action": "confirm",
+                "expected": "confirm",
+                "correct": true,
+                "critical": false
+              },
+              {
+                "reservation": "reservation-51400-2",
+                "type": "stale",
+                "action": "create_hold",
+                "expected": "confirm",
+                "correct": false,
+                "error": "stale_version",
+                "errorType": "tool",
+                "critical": false
+              },
+              {
+                "reservation": "reservation-51400-3",
+                "type": "expired_hold",
+                "action": "confirm",
+                "expected": "confirm",
+                "correct": false,
+                "error": "hold_expired",
+                "errorType": "decision",
+                "critical": true
+              },
+              {
+                "reservation": "reservation-51400-4",
+                "type": "modify_conflict",
+                "action": "__max_actions__",
+                "correct": false,
+                "error": "max_actions_exceeded",
+                "errorType": "runner",
+                "critical": false
+              }
+            ],
+            "repeat": 1,
+            "latencyMs": 83906,
+            "modelTimeouts": 0,
+            "modelParseErrors": 0,
+            "budgetExceeded": 1
+          }
+        ]
+      }
+    }
+  ]
+}

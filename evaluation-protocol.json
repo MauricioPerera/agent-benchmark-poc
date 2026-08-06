@@ -1,0 +1,11 @@
+{
+  "version": "v1",
+  "models": ["deepseek-v4-pro:cloud", "gpt-oss:20b-cloud", "gpt-oss:120b-cloud"],
+  "suites": [
+    { "id": "border-standard", "domain": "border", "profile": "standard", "seed": 51000, "episodes": 5, "repeats": 3, "cases": 3, "maxActions": 18, "timeoutMs": 30000 },
+    { "id": "border-interactive-semantic-ood", "domain": "border", "profile": "interactive-semantic-ood", "seed": 51100, "episodes": 5, "repeats": 3, "cases": 2, "maxActions": 18, "timeoutMs": 30000 },
+    { "id": "support", "domain": "support", "seed": 51200, "episodes": 5, "repeats": 3, "cases": 6, "maxActions": 30, "timeoutMs": 30000 },
+    { "id": "reservations-standard", "domain": "reservations", "profile": "standard", "seed": 51300, "episodes": 5, "repeats": 3, "cases": 6, "maxActions": 30, "timeoutMs": 30000 },
+    { "id": "reservations-semantic-ood", "domain": "reservations", "profile": "semantic-ood", "seed": 51400, "episodes": 5, "repeats": 3, "cases": 6, "maxActions": 30, "timeoutMs": 30000 }
+  ]
+}

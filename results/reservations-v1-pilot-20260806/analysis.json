@@ -1,0 +1,454 @@
+{
+  "version": "v1",
+  "generatedAt": "2026-08-06T17:43:29.879Z",
+  "results": [
+    {
+      "suite": "reservations-standard",
+      "model": "deepseek-v4-pro:cloud",
+      "meanAccuracy": 0.16666666666666666,
+      "accuracyCI95": {
+        "low": 0.03005258587173032,
+        "high": 0.563509436563646
+      },
+      "episodeSuccessRate": 0,
+      "meanLatencyMs": 69563,
+      "decisionErrorRate": 0,
+      "toolErrorRate": 0.38461538461538464,
+      "protocolErrorRate": 0,
+      "modelParseErrorRate": 0,
+      "budgetExceededRate": 0,
+      "scenarios": {
+        "simple": {
+          "correct": 0,
+          "total": 1,
+          "errors": 1,
+          "accuracy": 0,
+          "accuracyCI95": {
+            "low": 0,
+            "high": 0.7934567085261071
+          }
+        },
+        "stale": {
+          "correct": 0,
+          "total": 1,
+          "errors": 1,
+          "accuracy": 0,
+          "accuracyCI95": {
+            "low": 0,
+            "high": 0.7934567085261071
+          }
+        },
+        "expired_hold": {
+          "correct": 0,
+          "total": 1,
+          "errors": 1,
+          "accuracy": 0,
+          "accuracyCI95": {
+            "low": 0,
+            "high": 0.7934567085261071
+          }
+        },
+        "modify_conflict": {
+          "correct": 0,
+          "total": 1,
+          "errors": 1,
+          "accuracy": 0,
+          "accuracyCI95": {
+            "low": 0,
+            "high": 0.7934567085261071
+          }
+        },
+        "cancel": {
+          "correct": 0,
+          "total": 1,
+          "errors": 1,
+          "accuracy": 0,
+          "accuracyCI95": {
+            "low": 0,
+            "high": 0.7934567085261071
+          }
+        },
+        "impossible": {
+          "correct": 1,
+          "total": 1,
+          "errors": 0,
+          "accuracy": 1,
+          "accuracyCI95": {
+            "low": 0.20654329147389294,
+            "high": 1
+          }
+        }
+      }
+    },
+    {
+      "suite": "reservations-standard",
+      "model": "gpt-oss:20b-cloud",
+      "meanAccuracy": 0.16666666666666666,
+      "accuracyCI95": {
+        "low": 0.03005258587173032,
+        "high": 0.563509436563646
+      },
+      "episodeSuccessRate": 0,
+      "meanLatencyMs": 48414,
+      "decisionErrorRate": 0,
+      "toolErrorRate": 0.45454545454545453,
+      "protocolErrorRate": 0,
+      "modelParseErrorRate": 0,
+      "budgetExceededRate": 0,
+      "scenarios": {
+        "simple": {
+          "correct": 0,
+          "total": 1,
+          "errors": 1,
+          "accuracy": 0,
+          "accuracyCI95": {
+            "low": 0,
+            "high": 0.7934567085261071
+          }
+        },
+        "stale": {
+          "correct": 0,
+          "total": 1,
+          "errors": 1,
+          "accuracy": 0,
+          "accuracyCI95": {
+            "low": 0,
+            "high": 0.7934567085261071
+          }
+        },
+        "expired_hold": {
+          "correct": 0,
+          "total": 1,
+          "errors": 1,
+          "accuracy": 0,
+          "accuracyCI95": {
+            "low": 0,
+            "high": 0.7934567085261071
+          }
+        },
+        "modify_conflict": {
+          "correct": 0,
+          "total": 1,
+          "errors": 1,
+          "accuracy": 0,
+          "accuracyCI95": {
+            "low": 0,
+            "high": 0.7934567085261071
+          }
+        },
+        "cancel": {
+          "correct": 0,
+          "total": 1,
+          "errors": 1,
+          "accuracy": 0,
+          "accuracyCI95": {
+            "low": 0,
+            "high": 0.7934567085261071
+          }
+        },
+        "impossible": {
+          "correct": 1,
+          "total": 1,
+          "errors": 0,
+          "accuracy": 1,
+          "accuracyCI95": {
+            "low": 0.20654329147389294,
+            "high": 1
+          }
+        }
+      }
+    },
+    {
+      "suite": "reservations-standard",
+      "model": "gpt-oss:120b-cloud",
+      "meanAccuracy": 0,
+      "accuracyCI95": {
+        "low": 0,
+        "high": 0.35433884297520657
+      },
+      "episodeSuccessRate": 0,
+      "meanLatencyMs": 33015,
+      "decisionErrorRate": 0,
+      "toolErrorRate": 0.6,
+      "protocolErrorRate": 0,
+      "modelParseErrorRate": 1,
+      "budgetExceededRate": 0,
+      "scenarios": {
+        "simple": {
+          "correct": 0,
+          "total": 1,
+          "errors": 1,
+          "accuracy": 0,
+          "accuracyCI95": {
+            "low": 0,
+            "high": 0.7934567085261071
+          }
+        },
+        "stale": {
+          "correct": 0,
+          "total": 1,
+          "errors": 1,
+          "accuracy": 0,
+          "accuracyCI95": {
+            "low": 0,
+            "high": 0.7934567085261071
+          }
+        },
+        "expired_hold": {
+          "correct": 0,
+          "total": 1,
+          "errors": 1,
+          "accuracy": 0,
+          "accuracyCI95": {
+            "low": 0,
+            "high": 0.7934567085261071
+          }
+        },
+        "modify_conflict": {
+          "correct": 0,
+          "total": 1,
+          "errors": 1,
+          "accuracy": 0,
+          "accuracyCI95": {
+            "low": 0,
+            "high": 0.7934567085261071
+          }
+        },
+        "cancel": {
+          "correct": 0,
+          "total": 1,
+          "errors": 1,
+          "accuracy": 0,
+          "accuracyCI95": {
+            "low": 0,
+            "high": 0.7934567085261071
+          }
+        }
+      }
+    },
+    {
+      "suite": "reservations-semantic-ood",
+      "model": "deepseek-v4-pro:cloud",
+      "meanAccuracy": 0,
+      "accuracyCI95": {
+        "low": 0,
+        "high": 0.3903430336530645
+      },
+      "episodeSuccessRate": 0,
+      "meanLatencyMs": 45808,
+      "decisionErrorRate": 0,
+      "toolErrorRate": 0.6666666666666666,
+      "protocolErrorRate": 0,
+      "modelParseErrorRate": 0,
+      "budgetExceededRate": 0,
+      "scenarios": {
+        "simple": {
+          "correct": 0,
+          "total": 1,
+          "errors": 1,
+          "accuracy": 0,
+          "accuracyCI95": {
+            "low": 0,
+            "high": 0.7934567085261071
+          }
+        },
+        "stale": {
+          "correct": 0,
+          "total": 1,
+          "errors": 1,
+          "accuracy": 0,
+          "accuracyCI95": {
+            "low": 0,
+            "high": 0.7934567085261071
+          }
+        },
+        "expired_hold": {
+          "correct": 0,
+          "total": 1,
+          "errors": 1,
+          "accuracy": 0,
+          "accuracyCI95": {
+            "low": 0,
+            "high": 0.7934567085261071
+          }
+        },
+        "modify_conflict": {
+          "correct": 0,
+          "total": 1,
+          "errors": 1,
+          "accuracy": 0,
+          "accuracyCI95": {
+            "low": 0,
+            "high": 0.7934567085261071
+          }
+        },
+        "cancel": {
+          "correct": 0,
+          "total": 1,
+          "errors": 1,
+          "accuracy": 0,
+          "accuracyCI95": {
+            "low": 0,
+            "high": 0.7934567085261071
+          }
+        },
+        "impossible": {
+          "correct": 0,
+          "total": 1,
+          "errors": 1,
+          "accuracy": 0,
+          "accuracyCI95": {
+            "low": 0,
+            "high": 0.7934567085261071
+          }
+        }
+      }
+    },
+    {
+      "suite": "reservations-semantic-ood",
+      "model": "gpt-oss:20b-cloud",
+      "meanAccuracy": 0,
+      "accuracyCI95": {
+        "low": 0,
+        "high": 0.3903430336530645
+      },
+      "episodeSuccessRate": 0,
+      "meanLatencyMs": 22749,
+      "decisionErrorRate": 0,
+      "toolErrorRate": 0.75,
+      "protocolErrorRate": 0,
+      "modelParseErrorRate": 0,
+      "budgetExceededRate": 0,
+      "scenarios": {
+        "simple": {
+          "correct": 0,
+          "total": 1,
+          "errors": 1,
+          "accuracy": 0,
+          "accuracyCI95": {
+            "low": 0,
+            "high": 0.7934567085261071
+          }
+        },
+        "stale": {
+          "correct": 0,
+          "total": 1,
+          "errors": 1,
+          "accuracy": 0,
+          "accuracyCI95": {
+            "low": 0,
+            "high": 0.7934567085261071
+          }
+        },
+        "expired_hold": {
+          "correct": 0,
+          "total": 1,
+          "errors": 1,
+          "accuracy": 0,
+          "accuracyCI95": {
+            "low": 0,
+            "high": 0.7934567085261071
+          }
+        },
+        "modify_conflict": {
+          "correct": 0,
+          "total": 1,
+          "errors": 1,
+          "accuracy": 0,
+          "accuracyCI95": {
+            "low": 0,
+            "high": 0.7934567085261071
+          }
+        },
+        "cancel": {
+          "correct": 0,
+          "total": 1,
+          "errors": 1,
+          "accuracy": 0,
+          "accuracyCI95": {
+            "low": 0,
+            "high": 0.7934567085261071
+          }
+        },
+        "impossible": {
+          "correct": 0,
+          "total": 1,
+          "errors": 1,
+          "accuracy": 0,
+          "accuracyCI95": {
+            "low": 0,
+            "high": 0.7934567085261071
+          }
+        }
+      }
+    },
+    {
+      "suite": "reservations-semantic-ood",
+      "model": "gpt-oss:120b-cloud",
+      "meanAccuracy": 0,
+      "accuracyCI95": {
+        "low": 0,
+        "high": 0.43449149475208104
+      },
+      "episodeSuccessRate": 0,
+      "meanLatencyMs": 29749,
+      "decisionErrorRate": 0,
+      "toolErrorRate": 0.5,
+      "protocolErrorRate": 0,
+      "modelParseErrorRate": 1,
+      "budgetExceededRate": 0,
+      "scenarios": {
+        "simple": {
+          "correct": 0,
+          "total": 1,
+          "errors": 1,
+          "accuracy": 0,
+          "accuracyCI95": {
+            "low": 0,
+            "high": 0.7934567085261071
+          }
+        },
+        "stale": {
+          "correct": 0,
+          "total": 1,
+          "errors": 1,
+          "accuracy": 0,
+          "accuracyCI95": {
+            "low": 0,
+            "high": 0.7934567085261071
+          }
+        },
+        "expired_hold": {
+          "correct": 0,
+          "total": 1,
+          "errors": 1,
+          "accuracy": 0,
+          "accuracyCI95": {
+            "low": 0,
+            "high": 0.7934567085261071
+          }
+        },
+        "modify_conflict": {
+          "correct": 0,
+          "total": 1,
+          "errors": 1,
+          "accuracy": 0,
+          "accuracyCI95": {
+            "low": 0,
+            "high": 0.7934567085261071
+          }
+        },
+        "cancel": {
+          "correct": 0,
+          "total": 1,
+          "errors": 1,
+          "accuracy": 0,
+          "accuracyCI95": {
+            "low": 0,
+            "high": 0.7934567085261071
+          }
+        }
+      }
+    }
+  ]
+}

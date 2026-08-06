@@ -1,0 +1,105 @@
+FAIL seed=40220 accuracy=50.0% inspections=12 decision_errors=3 tool_errors=0 protocol_errors=0
+{
+  "domain": "customer_support",
+  "mode": "ollama",
+  "model": "gpt-oss:120b-cloud",
+  "episodes": 1,
+  "repeats": 1,
+  "meanAccuracy": 0.5,
+  "meanLatencyMs": 41913,
+  "episodeSuccessRate": 0,
+  "decisionErrorRate": 0.5,
+  "toolErrorRate": 0,
+  "protocolErrorRate": 0,
+  "invalidActionRate": 0,
+  "modelTimeoutRate": 0,
+  "modelParseErrorRate": 0,
+  "budgetExceededRate": 0,
+  "confusionMatrix": {
+    "resolve": {
+      "resolve": 2,
+      "deny": 1
+    },
+    "escalate": {
+      "escalate": 1,
+      "deny": 1
+    },
+    "deny": {
+      "resolve": 1
+    }
+  },
+  "passK": 0,
+  "rows": [
+    {
+      "version": "support-0.1.0",
+      "domain": "customer_support",
+      "seed": 40220,
+      "total": 6,
+      "correct": 3,
+      "errors": 3,
+      "decisionErrors": 3,
+      "toolErrors": 0,
+      "protocolErrors": 0,
+      "invalidActions": 0,
+      "inspections": 12,
+      "actions": 18,
+      "accuracy": 0.5,
+      "success": false,
+      "history": [
+        {
+          "ticket": "ticket-40220-1",
+          "type": "clean",
+          "action": "resolve",
+          "expected": "resolve",
+          "correct": true
+        },
+        {
+          "ticket": "ticket-40220-2",
+          "type": "refund_high",
+          "action": "escalate",
+          "expected": "escalate",
+          "correct": true
+        },
+        {
+          "ticket": "ticket-40220-3",
+          "type": "unverified",
+          "action": "deny",
+          "expected": "escalate",
+          "correct": false,
+          "error": "wrong_decision",
+          "errorType": "decision"
+        },
+        {
+          "ticket": "ticket-40220-4",
+          "type": "fraud",
+          "action": "resolve",
+          "expected": "deny",
+          "correct": false,
+          "error": "wrong_decision",
+          "errorType": "decision"
+        },
+        {
+          "ticket": "ticket-40220-5",
+          "type": "clean",
+          "action": "deny",
+          "expected": "resolve",
+          "correct": false,
+          "error": "wrong_decision",
+          "errorType": "decision"
+        },
+        {
+          "ticket": "ticket-40220-6",
+          "type": "clean",
+          "action": "resolve",
+          "expected": "resolve",
+          "correct": true
+        }
+      ],
+      "repeat": 1,
+      "latencyMs": 41913,
+      "modelTimeouts": 0,
+      "modelParseErrors": 0,
+      "budgetExceeded": 0
+    }
+  ]
+}

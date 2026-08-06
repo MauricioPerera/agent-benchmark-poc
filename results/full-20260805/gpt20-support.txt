@@ -1,0 +1,104 @@
+FAIL seed=40120 accuracy=50.0% inspections=14 decision_errors=3 tool_errors=0 protocol_errors=0
+{
+  "domain": "customer_support",
+  "mode": "ollama",
+  "model": "gpt-oss:20b-cloud",
+  "episodes": 1,
+  "repeats": 1,
+  "meanAccuracy": 0.5,
+  "meanLatencyMs": 50604,
+  "episodeSuccessRate": 0,
+  "decisionErrorRate": 0.5,
+  "toolErrorRate": 0,
+  "protocolErrorRate": 0,
+  "invalidActionRate": 0,
+  "modelTimeoutRate": 0,
+  "modelParseErrorRate": 0,
+  "budgetExceededRate": 0,
+  "confusionMatrix": {
+    "resolve": {
+      "resolve": 1
+    },
+    "escalate": {
+      "escalate": 2,
+      "deny": 2
+    },
+    "deny": {
+      "resolve": 1
+    }
+  },
+  "passK": 0,
+  "rows": [
+    {
+      "version": "support-0.1.0",
+      "domain": "customer_support",
+      "seed": 40120,
+      "total": 6,
+      "correct": 3,
+      "errors": 3,
+      "decisionErrors": 3,
+      "toolErrors": 0,
+      "protocolErrors": 0,
+      "invalidActions": 0,
+      "inspections": 14,
+      "actions": 20,
+      "accuracy": 0.5,
+      "success": false,
+      "history": [
+        {
+          "ticket": "ticket-40120-1",
+          "type": "clean",
+          "action": "resolve",
+          "expected": "resolve",
+          "correct": true
+        },
+        {
+          "ticket": "ticket-40120-2",
+          "type": "refund_high",
+          "action": "escalate",
+          "expected": "escalate",
+          "correct": true
+        },
+        {
+          "ticket": "ticket-40120-3",
+          "type": "unverified",
+          "action": "deny",
+          "expected": "escalate",
+          "correct": false,
+          "error": "wrong_decision",
+          "errorType": "decision"
+        },
+        {
+          "ticket": "ticket-40120-4",
+          "type": "fraud",
+          "action": "resolve",
+          "expected": "deny",
+          "correct": false,
+          "error": "wrong_decision",
+          "errorType": "decision"
+        },
+        {
+          "ticket": "ticket-40120-5",
+          "type": "unverified",
+          "action": "deny",
+          "expected": "escalate",
+          "correct": false,
+          "error": "wrong_decision",
+          "errorType": "decision"
+        },
+        {
+          "ticket": "ticket-40120-6",
+          "type": "refund_high",
+          "action": "escalate",
+          "expected": "escalate",
+          "correct": true
+        }
+      ],
+      "repeat": 1,
+      "latencyMs": 50604,
+      "modelTimeouts": 0,
+      "modelParseErrors": 0,
+      "budgetExceeded": 0
+    }
+  ]
+}

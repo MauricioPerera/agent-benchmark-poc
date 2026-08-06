@@ -1,0 +1,97 @@
+PASS seed=40020 accuracy=100.0% inspections=18 decision_errors=0 tool_errors=0 protocol_errors=0
+{
+  "domain": "customer_support",
+  "mode": "ollama",
+  "model": "deepseek-v4-pro:cloud",
+  "episodes": 1,
+  "repeats": 1,
+  "meanAccuracy": 1,
+  "meanLatencyMs": 82634,
+  "episodeSuccessRate": 1,
+  "decisionErrorRate": 0,
+  "toolErrorRate": 0,
+  "protocolErrorRate": 0,
+  "invalidActionRate": 0,
+  "modelTimeoutRate": 0,
+  "modelParseErrorRate": 0,
+  "budgetExceededRate": 0,
+  "confusionMatrix": {
+    "resolve": {
+      "resolve": 1
+    },
+    "escalate": {
+      "escalate": 4
+    },
+    "deny": {
+      "deny": 1
+    }
+  },
+  "passK": 1,
+  "rows": [
+    {
+      "version": "support-0.1.0",
+      "domain": "customer_support",
+      "seed": 40020,
+      "total": 6,
+      "correct": 6,
+      "errors": 0,
+      "decisionErrors": 0,
+      "toolErrors": 0,
+      "protocolErrors": 0,
+      "invalidActions": 0,
+      "inspections": 18,
+      "actions": 24,
+      "accuracy": 1,
+      "success": true,
+      "history": [
+        {
+          "ticket": "ticket-40020-1",
+          "type": "clean",
+          "action": "resolve",
+          "expected": "resolve",
+          "correct": true
+        },
+        {
+          "ticket": "ticket-40020-2",
+          "type": "refund_high",
+          "action": "escalate",
+          "expected": "escalate",
+          "correct": true
+        },
+        {
+          "ticket": "ticket-40020-3",
+          "type": "unverified",
+          "action": "escalate",
+          "expected": "escalate",
+          "correct": true
+        },
+        {
+          "ticket": "ticket-40020-4",
+          "type": "fraud",
+          "action": "deny",
+          "expected": "deny",
+          "correct": true
+        },
+        {
+          "ticket": "ticket-40020-5",
+          "type": "refund_high",
+          "action": "escalate",
+          "expected": "escalate",
+          "correct": true
+        },
+        {
+          "ticket": "ticket-40020-6",
+          "type": "refund_high",
+          "action": "escalate",
+          "expected": "escalate",
+          "correct": true
+        }
+      ],
+      "repeat": 1,
+      "latencyMs": 82634,
+      "modelTimeouts": 0,
+      "modelParseErrors": 0,
+      "budgetExceeded": 0
+    }
+  ]
+}
