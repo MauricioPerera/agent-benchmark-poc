@@ -184,6 +184,11 @@ function step(state, action) {
     return result;
   }
   if (normalized === 'confirm') {
+    if (state.booking && state.booking.status === 'confirmed') {
+      state.errors++; state.toolErrors++;
+      state.history.push({ reservation: state.current.id, type: state.current.type, action: normalized, expected: expected(state.current), correct: false, error: 'already_confirmed', errorType: 'tool', critical: false });
+      return { valid: true, done: false, error: 'already_confirmed', errorType: 'tool', observation: observation(state) };
+    }
     if (!state.hold || state.clock >= state.hold.expiresAt) return finishCase(state, normalized, false, 'hold_expired', 'decision', true);
     state.booking = { id: `booking-${task.id}`, resource: task.resource, slot: task.requestedSlot, status: 'confirmed' };
     if (task.type === 'modify_conflict' || task.type === 'cancel') return { valid: true, done: false, observation: observation(state) };
