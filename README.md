@@ -24,21 +24,21 @@ La integración usa la API local de Ollama en `http://127.0.0.1:11434/api/chat`.
 
 El modo offline usa un agente heurístico y sirve para comprobar que el entorno, el generador y el scoring funcionan:
 
-```powershell
-node .\run.cjs --mode offline --episodes 20 --seed 1000
+```bash
+node ./run.cjs --mode offline --episodes 20 --seed 1000
 ```
 
 También se puede exportar cada episodio en JSONL:
 
-```powershell
-node .\run.cjs --mode offline --episodes 100 --seed 1000 --out .\results.jsonl
+```bash
+node ./run.cjs --mode offline --episodes 100 --seed 1000 --out ./results.jsonl
 ```
 
 ## Ejecución con Ollama
 
-```powershell
+```bash
 ollama run gemma4:cloud
-node .\run.cjs --mode ollama --episodes 5 --seed 1000
+node ./run.cjs --mode ollama --episodes 5 --seed 1000
 ```
 
 El runner solicita una acción JSON y valida la acción contra el estado real del entorno. La respuesta del modelo nunca decide directamente si acertó: el entorno calcula la respuesta correcta.
@@ -69,8 +69,8 @@ Opciones principales:
 
 Para comparar modelos con exactamente las mismas semillas:
 
-```powershell
-node .\compare-models.cjs --profile standard --episodes 3 --cases 1 --models gemma4:cloud,qwen3.5:cloud
+```bash
+node ./compare-models.cjs --profile standard --episodes 3 --cases 1 --models gemma4:cloud,qwen3.5:cloud
 ```
 
 ## Diseño experimental
@@ -107,14 +107,14 @@ Esta es una POC de evaluación de agentes, no una medición completa de calidad 
 
 El archivo `support.cjs` contiene un segundo entorno independiente con políticas de soporte, tickets, reembolsos, verificación de cuenta y señales de fraude. Usa `resolve`, `deny`, `escalate` e inspecciones parciales. Se valida con:
 
-```powershell
-node .\support-test.cjs
+```bash
+node ./support-test.cjs
 ```
 
 Para probarlo con Ollama:
 
-```powershell
-node .\support-run.cjs --mode ollama --model gemma4:cloud --episodes 3 --repeats 2
+```bash
+node ./support-run.cjs --mode ollama --model gemma4:cloud --episodes 3 --repeats 2
 ```
 
 ## Dominio paralelo: reservas
@@ -127,7 +127,7 @@ aplica penalizaciones críticas a sobreventas o mutaciones inválidas.
 
 Se valida con:
 
-```powershell
+```bash
 npm run test:reservations
 ```
 
@@ -137,23 +137,23 @@ timeout para ambos modelos. Los perfiles disponibles son `standard`, `ood` y
 
 Runner offline y Ollama:
 
-```powershell
-node .\reservations-run.cjs --mode offline --episodes 5
-node .\reservations-run.cjs --mode ollama --model qwen3.5:cloud --episodes 2 --repeats 2
-node .\reservations-run.cjs --mode ollama --model gemma4:cloud --episodes 3 --out .\reservations-results.jsonl --trace
-node .\reservations-run.cjs --mode offline --profile semantic-ood --episodes 5
+```bash
+node ./reservations-run.cjs --mode offline --episodes 5
+node ./reservations-run.cjs --mode ollama --model qwen3.5:cloud --episodes 2 --repeats 2
+node ./reservations-run.cjs --mode ollama --model gemma4:cloud --episodes 3 --out ./reservations-results.jsonl --trace
+node ./reservations-run.cjs --mode offline --profile semantic-ood --episodes 5
 ```
 
 Para analizar una corrida exportada:
 
-```powershell
-node .\analyze-reservations.cjs --input .\reservations-results.jsonl
+```bash
+node ./analyze-reservations.cjs --input ./reservations-results.jsonl
 ```
 
 El comparador también puede guardar la comparación completa:
 
-```powershell
-node .\compare-reservations.cjs --episodes 1 --cases 1 --out .\model-comparison.json
+```bash
+node ./compare-reservations.cjs --episodes 1 --cases 1 --out ./model-comparison.json
 ```
 
 El análisis calcula intervalo Wilson del 95% para éxito de episodio y

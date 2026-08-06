@@ -1,9 +1,17 @@
 {
-  "name": "puesto7-agent-benchmark-poc",
+  "name": "agent-benchmark-poc",
   "version": "0.1.0",
-  "private": true,
   "description": "POC reproducible de benchmark para agentes LLM inspirada en Puesto Siete",
   "type": "commonjs",
+  "license": "Apache-2.0",
+  "author": "Mauricio Perera",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MauricioPerera/agent-benchmark-poc.git"
+  },
+  "engines": {
+    "node": ">=18"
+  },
   "scripts": {
     "test": "node test.cjs",
     "test:reservations": "node reservations-test.cjs",
