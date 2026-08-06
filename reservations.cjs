@@ -188,7 +188,12 @@ function step(state, action) {
     }
     if (state.searchVersion === null) return finishCase(state, normalized, false, 'search_required', 'tool', false);
     if (task.capacity < 1) return finishCase(state, normalized, false, 'no_availability', 'decision', true);
-    if (task.type === 'stale' && state.searchVersion !== task.version) return finishCase(state, normalized, false, 'stale_version', 'tool', false);
+    if (task.type === 'stale' && state.searchVersion !== task.version) {
+      state.errors++; state.toolErrors++;
+      state.history.push({ reservation: state.current.id, type: state.current.type, action: normalized, expected: expected(state.current), correct: false, error: 'stale_version', errorType: 'tool', critical: false });
+      setLastAction(state, normalized, false, 'stale_version', 'tool');
+      return { valid: true, done: false, error: 'stale_version', errorType: 'tool', observation: observation(state) };
+    }
     const duration = task.type === 'expired_hold' && state.hold ? 3 : task.holdExpiresAt;
     state.hold = { id: `hold-${task.id}`, expiresAt: state.clock + duration, version: task.version };
     setLastAction(state, normalized, true);
@@ -203,7 +208,12 @@ function step(state, action) {
       setLastAction(state, normalized, false, 'already_confirmed', 'tool');
       return { valid: true, done: false, error: 'already_confirmed', errorType: 'tool', observation: observation(state) };
     }
-    if (!state.hold || state.clock >= state.hold.expiresAt) return finishCase(state, normalized, false, 'hold_expired', 'decision', true);
+    if (!state.hold || state.clock >= state.hold.expiresAt) {
+      state.errors++; state.toolErrors++;
+      state.history.push({ reservation: state.current.id, type: state.current.type, action: normalized, expected: expected(state.current), correct: false, error: 'hold_expired', errorType: 'tool', critical: false });
+      setLastAction(state, normalized, false, 'hold_expired', 'tool');
+      return { valid: true, done: false, error: 'hold_expired', errorType: 'tool', observation: observation(state) };
+    }
     state.booking = { id: `booking-${task.id}`, resource: task.resource, slot: task.requestedSlot, status: 'confirmed' };
     if (task.type === 'modify_conflict' || task.type === 'cancel') {
       setLastAction(state, normalized, true);
