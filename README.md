@@ -1,5 +1,7 @@
 # Puesto 7 Agent Benchmark — POC
 
+[![test](https://github.com/MauricioPerera/agent-benchmark-poc/actions/workflows/test.yml/badge.svg)](https://github.com/MauricioPerera/agent-benchmark-poc/actions/workflows/test.yml)
+
 POC independiente para evaluar agentes LLM en un entorno de decisiones secuenciales inspirado en el juego Puesto Siete.
 
 El juego original no se modifica. Esta POC separa el entorno de evaluación del cliente visual y conserva solo estas mecánicas:
