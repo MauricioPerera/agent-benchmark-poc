@@ -38,6 +38,16 @@ function scenarioMetrics(rows) {
   return groups;
 }
 
+function confusionMatrix(rows) {
+  const matrix = {};
+  for (const row of rows) for (const item of row.history) {
+    if (!item.expected || String(item.expected).includes('|') || String(item.expected).includes('available_')) continue;
+    const expected = matrix[item.expected] || (matrix[item.expected] = {});
+    expected[item.action] = (expected[item.action] || 0) + 1;
+  }
+  return matrix;
+}
+
 async function ollamaAction(config, obs) {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), config.timeoutMs);
@@ -46,7 +56,10 @@ async function ollamaAction(config, obs) {
     const response = await fetch(config.ollama, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ model: config.model, stream: false, format: 'json', options: { temperature: 0 }, messages: [{ role: 'system', content: system }, { role: 'user', content: JSON.stringify(obs) }] }), signal: controller.signal });
     if (!response.ok) throw new Error(`Ollama HTTP ${response.status}`);
     const data = await response.json();
-    return extractAction(data.message?.content);
+    try { return extractAction(data.message?.content); } catch { return '__invalid__'; }
+  } catch (error) {
+    if (error.name === 'AbortError') return '__timeout__';
+    return '__invalid__';
   } finally { clearTimeout(timer); }
 }
 
@@ -55,19 +68,36 @@ async function main() {
   const rows = [];
   for (let repeat = 0; repeat < config.repeats; repeat++) for (let i = 0; i < config.episodes; i++) {
     const state = createState(config.seed + i, config.difficulty, config.cases, config.profile);
-    let latencyMs = 0;
+    let latencyMs = 0, modelTimeouts = 0, modelParseErrors = 0, budgetExceeded = 0;
     while (!state.done) {
-      if (state.actions >= config.maxActions) throw new Error(`max actions exceeded on seed ${state.episode.seed}`);
+      if (state.actions >= config.maxActions) {
+        budgetExceeded++; state.errors++;
+        state.history.push({ case: state.index + 1, traveler: state.current.name, violation: state.current.violation, action: '__max_actions__', expected: null, correct: false, reason: 'max_actions_exceeded', violations: [] });
+        state.done = true; state.phase = 'done'; break;
+      }
       const obs = observation(state);
       let action;
       if (config.mode === 'ollama') { const started = Date.now(); action = await ollamaAction(config, obs); latencyMs += Date.now() - started; }
       else action = heuristic(obs);
+      if (action === '__timeout__' || action === '__invalid__') {
+        state.errors++;
+        if (action === '__timeout__') modelTimeouts++; else modelParseErrors++;
+        state.history.push({ case: state.index + 1, traveler: state.current.name, violation: state.current.violation, action, expected: null, correct: false, reason: action === '__timeout__' ? 'model_timeout' : 'invalid_model_output', violations: [] });
+        state.done = true; state.phase = 'done'; break;
+      }
       const result = step(state, action);
-      if (!result.valid) throw new Error(`invalid action: ${result.error}`);
+      if (!result.valid) {
+        state.errors++;
+        state.history.push({ case: state.index + 1, traveler: state.current.name, violation: state.current.violation, action, expected: null, correct: false, reason: result.error, violations: [] });
+        state.done = true; state.phase = 'done';
+      }
     }
     const row = summary(state);
     row.latencyMs = latencyMs;
     row.repeat = repeat + 1;
+    row.modelTimeouts = modelTimeouts;
+    row.modelParseErrors = modelParseErrors;
+    row.budgetExceeded = budgetExceeded;
     rows.push(row);
     console.log(`${row.success ? 'PASS' : 'FAIL'} seed=${row.seed} score=${row.score} accuracy=${(row.accuracy * 100).toFixed(1)}% critical=${row.criticalErrors}`);
     if (!row.success) for (const item of row.history.filter(x => !x.correct)) console.log(`  case=${item.case} traveler=${item.traveler} expected=${item.expected || item.reason} action=${item.action} violations=${item.violations.join(',')}`);
@@ -81,8 +111,11 @@ async function main() {
     bribeAcceptRate: rows.reduce((s, x) => s + x.bribesAccepted, 0) / Math.max(1, rows.reduce((s, x) => s + x.bribesOffered, 0)),
     episodeSuccessRate: rows.filter(x => x.success).length / rows.length,
     criticalErrors: rows.reduce((s, x) => s + x.criticalErrors, 0),
+    modelTimeoutRate: rows.reduce((s, x) => s + x.modelTimeouts, 0) / rows.length,
+    modelParseErrorRate: rows.reduce((s, x) => s + x.modelParseErrors, 0) / rows.length,
+    budgetExceededRate: rows.reduce((s, x) => s + x.budgetExceeded, 0) / rows.length,
     passK: Array.from({ length: config.episodes }, (_, i) => rows.filter(x => x.seed === config.seed + i).every(x => x.success)).filter(Boolean).length / config.episodes,
-    byScenario: scenarioMetrics(rows), rows
+    byScenario: scenarioMetrics(rows), confusionMatrix: confusionMatrix(rows), rows
   };
   if (!config.summaryOnly) console.log(JSON.stringify(aggregate, null, 2));
   const compact = { ...aggregate }; delete compact.rows;
@@ -92,4 +125,4 @@ async function main() {
 
 if (require.main === module) main().catch(error => { console.error(`ERROR: ${error.message}`); process.exitCode = 1; });
 
-module.exports = { scenarioMetrics };
+module.exports = { scenarioMetrics, confusionMatrix };

@@ -83,6 +83,9 @@ Se recomienda separar:
 - `test`: semillas privadas;
 - `ood`: reglas y combinaciones nuevas que mantienen las mecánicas.
 
+El protocolo pareado para comparar modelos está fijado en
+[`EVALUATION_PROTOCOL.md`](EVALUATION_PROTOCOL.md).
+
 ## Métricas de la POC
 
 - `accuracy`: decisiones correctas;
@@ -113,3 +116,57 @@ Para probarlo con Ollama:
 ```powershell
 node .\support-run.cjs --mode ollama --model gemma4:cloud --episodes 3 --repeats 2
 ```
+
+## Dominio paralelo: reservas
+
+`reservations.cjs` añade un entorno con recursos, holds, confirmaciones,
+cancelaciones, modificaciones, versiones de disponibilidad y casos de estado
+obsoleto o imposible. Separa errores de decisión, herramienta y protocolo,
+exige una búsqueda antes de crear un hold, soporta reintentos idempotentes y
+aplica penalizaciones críticas a sobreventas o mutaciones inválidas.
+
+Se valida con:
+
+```powershell
+npm run test:reservations
+```
+
+La comparación debe conservar las mismas semillas, perfil, acciones máximas y
+timeout para ambos modelos. Los perfiles disponibles son `standard`, `ood` y
+`semantic-ood`.
+
+Runner offline y Ollama:
+
+```powershell
+node .\reservations-run.cjs --mode offline --episodes 5
+node .\reservations-run.cjs --mode ollama --model qwen3.5:cloud --episodes 2 --repeats 2
+node .\reservations-run.cjs --mode ollama --model gemma4:cloud --episodes 3 --out .\reservations-results.jsonl --trace
+node .\reservations-run.cjs --mode offline --profile semantic-ood --episodes 5
+```
+
+Para analizar una corrida exportada:
+
+```powershell
+node .\analyze-reservations.cjs --input .\reservations-results.jsonl
+```
+
+El comparador también puede guardar la comparación completa:
+
+```powershell
+node .\compare-reservations.cjs --episodes 1 --cases 1 --out .\model-comparison.json
+```
+
+El análisis calcula intervalo Wilson del 95% para éxito de episodio y
+percentiles p50/p95 de latencia. También genera `confusionMatrix`, contando sólo
+decisiones terminales y excluyendo inspecciones o errores de herramientas, junto
+con precisión, recall, F1 por acción y `macroF1`. También genera la matriz por
+escenario para localizar fallos de estado o recuperación.
+
+El runner distingue `modelTimeoutRate`, `modelParseErrorRate` y
+`budgetExceededRate` de los errores de protocolo del entorno. Esto evita
+interpretar un timeout o un bucle del agente como una decisión incorrecta.
+Para auditar cada acción se puede añadir `--trace`; la traza se incluye en el
+resultado del episodio sin alterar el scoring.
+También incluye `byScenario` para separar el rendimiento en flujos simples,
+versiones obsoletas, holds expirados, modificaciones, cancelaciones y casos
+imposibles.
